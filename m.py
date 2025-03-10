@@ -10,6 +10,7 @@ menu = """
 
 LIMIT_WITHDRAWAL = 500.00
 DAILY_WITHDRAWAL_LIMITS = 3
+MAX_DEPOSIT_VALUE = 100000
 
 bank_infos = {
     'balance': 0,
@@ -25,11 +26,18 @@ def deposit():
         print('Informe um valor válido')
         return
 
+    if value > MAX_DEPOSIT_VALUE:
+        print(f'O valor inserido é muito alto! O limite é R$ {MAX_DEPOSIT_VALUE:.2f}.')
+
     bank_infos["deposits"].append(value)
     bank_infos['balance'] += value
 
 def withdraw():
     value = float(input('Informe um valor para o saque: '))
+
+    if value <= 0:
+        print('Informe um valor válido para o saque!')
+        return
 
     if bank_infos['withdrawals_made'] >= DAILY_WITHDRAWAL_LIMITS:
         print('Você excedeu os 3 saques diários!')
@@ -52,6 +60,16 @@ options = {
     'S': withdraw,
 }
 
+def show_statement():
+    print('\n Extrato:')
+    print('Depositos realizados: ')
+    for deposit in bank_infos["deposits"]:
+        print(f"R$ {deposit:.2f}")
+
+    print('Saques realizados')
+    for withdraw in bank_infos['withdrawals']:
+        print(f'R$ {bank_infos["balance"]:.2f}')
+
 def view_balance(): 
     print(f'R$ {bank_infos["balance"]:.2f}')
 
@@ -69,7 +87,9 @@ while True:
     view_balance()
     if option.upper() in options:
         options.get(option.upper())()
+    elif option.upper() == 'E':
+        show_statement()
     else:
-         print("Opção inválida! Por favor, escolha uma opção válida (D, S, E, F).")
+        print("Opção inválida! Por favor, escolha uma opção válida (D, S, E, F).")
 
 
