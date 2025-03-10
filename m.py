@@ -1,3 +1,5 @@
+import os
+
 menu = """
 [D] Depositar
 [S] Sacar
@@ -50,12 +52,21 @@ options = {
     'S': withdraw,
 }
 
+def view_balance(): 
+    print(f'R$ {bank_infos["balance"]:.2f}')
+
 while True:
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    view_balance()
     option = input(menu)
 
     if option.upper() == 'F':
         break
+    
+    os.system('cls' if os.name == 'nt' else 'clear')
 
+    view_balance()
     options.get(option.upper())()
 
 
