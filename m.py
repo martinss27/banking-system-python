@@ -6,35 +6,56 @@ menu = """
 
 => """
 
-balance = 0
-bank_statement = {
-    'deposit': []
+LIMIT_WITHDRAWAL = 500.00
+DAILY_WITHDRAWAL_LIMITS = 3
+
+bank_infos = {
+    'balance': 0,
+    'withdrawals_made': 0,
+    'deposits': [],
+    'withdrawals': []
 }
 
 def deposit():
-    global balance
-
     value = float(input('Informe um valor para o depósito: '))
 
     if value <= 0:
         print('Informe um valor válido')
         return
 
-    bank_statement["deposit"].append(value)
+    bank_infos["deposits"].append(value)
+    bank_infos['balance'] += value
 
-    balance += value
+def withdraw():
+    value = float(input('Informe um valor para o saque: '))
+
+    if bank_infos['withdrawals_made'] >= DAILY_WITHDRAWAL_LIMITS:
+        print('Você excedeu os 3 saques diários!')
+        return
+    
+    if value > bank_infos['balance']:
+        print('Você não tem esse saldo na conta!')
+        return
+    
+    if value > LIMIT_WITHDRAWAL:
+        print('Você não pode sacar mais de R$ 500.00 por saque!')
+        return
+    
+    bank_infos['withdrawals_made'] += 1
+    bank_infos['withdrawals'].append(value)
+    bank_infos['balance'] -= value
 
 options = {
     'D': deposit,
+    'S': withdraw,
 }
 
 while True:
     option = input(menu)
 
-    if option == 'F':
+    if option.upper() == 'F':
         break
 
-    options.get(option)()
+    options.get(option.upper())()
 
 
-    
