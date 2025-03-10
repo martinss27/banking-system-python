@@ -20,7 +20,10 @@ bank_infos = {
 }
 
 def deposit():
-    value = float(input('Informe um valor para o depósito: '))
+    try:
+        value = float(input('Informe um valor para o depósito: '))
+    except ValueError:
+        print('Entrada Inválida! Digite um número válido.')
 
     if value <= 0:
         print('Informe um valor válido')
@@ -33,7 +36,11 @@ def deposit():
     bank_infos['balance'] += value
 
 def withdraw():
-    value = float(input('Informe um valor para o saque: '))
+    try:
+        value = float(input('Informe um valor para o saque: '))
+    except ValueError:
+        print('Entrada Inválida! Digite um número válido')
+
 
     if value <= 0:
         print('Informe um valor válido para o saque!')
