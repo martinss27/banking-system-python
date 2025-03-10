@@ -28,7 +28,7 @@ def deposit():
 
     if value > MAX_DEPOSIT_VALUE:
         print(f'O valor inserido é muito alto! O limite é R$ {MAX_DEPOSIT_VALUE:.2f}.')
-
+        return
     bank_infos["deposits"].append(value)
     bank_infos['balance'] += value
 
@@ -62,13 +62,28 @@ options = {
 
 def show_statement():
     print('\n Extrato:')
-    print('Depositos realizados: ')
-    for deposit in bank_infos["deposits"]:
-        print(f"R$ {deposit:.2f}")
 
-    print('Saques realizados')
-    for withdraw in bank_infos['withdrawals']:
-        print(f'R$ {bank_infos["balance"]:.2f}')
+    if not bank_infos["deposits"] and not bank_infos["withdrawals"]:
+        print('Nenhuma movimentação realizada.')
+        return
+
+    if bank_infos["deposits"]:
+        print('\nDepósitos realizados:')
+        for deposit in bank_infos["deposits"]:
+            print(f"   + R$ {deposit:.2f}")
+
+    else:
+        print('\nNenhum depósito realizado.')
+
+    if bank_infos["withdrawals"]:
+        print('\nSaques realizados:')  # alterado
+        for withdraw in bank_infos['withdrawals']:
+            print(f"   - R$ {withdraw:.2f}")
+    
+    else:
+        print('\nNenhum saque realizado.')
+
+    print(f'\nSaldo atual: R$ {bank_infos["balance"]:.2f}')
 
 def view_balance(): 
     print(f'R$ {bank_infos["balance"]:.2f}')
