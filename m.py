@@ -67,6 +67,9 @@ while True:
     os.system('cls' if os.name == 'nt' else 'clear')
 
     view_balance()
-    options.get(option.upper())()
+    if option.upper() in options:
+        options.get(option.upper())()
+    else:
+         print("Opção inválida! Por favor, escolha uma opção válida (D, S, E, F).")
 
 
